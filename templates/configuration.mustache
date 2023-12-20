@@ -1,0 +1,49 @@
+<div class='text-center'>
+    <h1>Role</h1>
+    <button class='btn btn-primary cn-view-div' onclick='cn_view_div(0)'>Settings</button>
+    <button class='btn btn-primary cn-view-div' onclick='cn_view_div(1)'>Displays</button>
+</div>
+<div class='cn-nav-div' style='display:none;'>
+    <h1 class='text-center'>Settings</h1>
+    <ul class='cn-ul'>
+        {{#roles_array}}
+        <li class='ml-1 mr-1 p-1 c-pointer' onclick='role_settings({{1}})'><h4>{{0}}</h4></li>
+        {{/roles_array}}
+    </ul>
+    <div>
+        <div id="cn_rs_div" class='text-center' style='display:none;'>
+            <form id="cn_rs_form">
+                <h4 id="cn_rs_form_h4"></h4>
+                <p>Width: <input id="cn_rs_form_width" type='number' min="10" required></p>
+                <p>Height: <input id="cn_rs_form_height" type='number' min="10" required></p>
+                <p>Keep Aspect Ratio: <input id="cn_rs_form_aspect" type='checkbox'></p>
+                <p>Icons Per Row: <input id="cn_rs_form_icons" type='number' min="1" required></p>
+                <button class='btn btn-primary' id="cn_rs_form_submit" type='submit'>Submit</button>
+            </form>
+        </div>
+        <h4 class='text-center text-error' id="cn_rs_error"></h4>
+        <h4 class='text-center text-success' id="cn_rs_success"></h4>
+    </div>
+</div>
+<div class='cn-nav-div' style='display:none;'>
+    <h1 class='text-center'>Displays</h2>
+    <ul class='cn-ul'>
+        {{#roles_array}}
+        <li class='ml-1 mr-1 p-1 c-pointer' onclick='role_displays({{1}})'><h4>{{0}}</h4></li>
+        {{/roles_array}}
+    </ul>
+    <div>
+        <div id="cn_rd_div" class='text-center' style='display:none;'>
+            <form id="cn_rd_form">
+                <h4 class="cn_rd_form_h4">Role</h4>
+                <div id="cn_rd_form_div" class="cn-image-div-outer"></div>
+                <div>
+                    <button class='btn btn-primary' id="cn_rd_form_submit" type="submit">Submit</button>
+                    <button class='btn btn-primary' id="cn_rd_form_new" type='button' onclick="cn_new_icon()">Add New Icon</button>
+                </div>
+            </form>
+        </div>
+        <h4 class='text-center text-error' id="cn_rd_error"></h4>
+        <h4 class='text-center text-success' id="cn_rd_success"></h4>
+    </div>
+</div>
