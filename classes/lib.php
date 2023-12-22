@@ -10,43 +10,47 @@ use stdClass;
 
 class lib{
     #Get all the relevant roles
-    function get_roles(): array{
+    public function get_roles(): array{
         global $DB;
-        $records = $DB->get_records_sql('SELECT shortname, id FROM {role} WHERE archetype = "manager" OR archetype = "teacher" OR archetype = "editingteacher" OR archetype = "student"');
+        $records = $DB->get_records_sql('SELECT shortname, id, archetype FROM {role} WHERE archetype = "manager" OR archetype = "teacher" OR archetype = "editingteacher" OR archetype = "student"');
         $array = [];
         foreach($records as $record){
-            array_push($array, [$record->shortname, $record->id]);
+            array_push($array, [$record->shortname, $record->id, $record->archetype]);
         }
         asort($array);
         return $array;
     }
 
     #Check if the role id provided is valid
-    function check_role_id(int $id): bool{
+    public function check_role_id(int $id): bool{
         global $DB;
         return ($DB->get_record_sql('SELECT * FROM {role} WHERE (archetype = "manager" OR archetype = "teacher" OR archetype = "editingteacher" OR archetype = "student") AND id = ?',[$id])->id != null) ? true : false;
     }
     
     #Check if the role id provided has settings stored in the database already
-    function check_role_setting_exists(int $id): bool{
+    public function check_role_setting_exists(int $id): bool{
         global $DB;
         return ($DB->record_exists('customnav_settings', [$DB->sql_compare_text('roleid') => $id]) == true) ? true : false;
     }
 
     #Get the short name for a specific role id
-    function get_roleid_shortname(int $id): string{
+    public function get_roleid_shortname(int $id): string{
         global $DB;
         return $DB->get_record_sql('SELECT shortname FROM {role} WHERE id = ?',[$id])->shortname;
     }
 
     #Get the id of the record for a specific role id
-    function get_role_settings_id(int $id): int{
+    private function get_role_settings_id(int $id): int{
         global $DB;
-        return $DB->get_record_sql('SELECT id FROM {customnav_settings} WHERE roleid = ?',[$id])->id;
+        if($DB->record_exists('customnav_settings', [$DB->sql_compare_text('roleid') => $id])){
+            return $DB->get_record_sql('SELECT id FROM {customnav_settings} WHERE roleid = ?',[$id])->id;
+        } else {
+            return 0;
+        }
     }
 
     #Set the settings for a specific role id
-    function set_role_settings(int $id, int $width, int $height, int $aspect, int $icons): bool{
+    public function set_role_settings(int $id, int $width, int $height, int $aspect, int $icons): bool{
         global $DB;
         #Create a new record class
         $record = new stdClass();
@@ -66,26 +70,26 @@ class lib{
     }
 
     #Get the settings for a specific role id
-    function get_role_settings(int $id): array{
+    public function get_role_settings(int $id): array{
         global $DB;
         $record = $DB->get_record_sql('SELECT * FROM {customnav_settings} WHERE roleid = ?',[$id]);
         return [$record->width, $record->height, $record->aspectratio, $record->iconsperrow];
     }
 
     #Check if images for the role id exists
-    function check_role_images_exists(int $id): bool{
+    public function check_role_images_exists(int $id): bool{
         global $DB;
         return ($DB->record_exists('customnav_images', [$DB->sql_compare_text('settingid') => $this->get_role_settings_id($id)]) == true) ? true : false;
     }
 
     #Get a specific id of a record for a specific role and position
-    function get_role_images_id(int $id, int $pos): int{
+    private function get_role_images_id(int $id, int $pos): int{
         global $DB;
         return $DB->get_record_sql('SELECT id FROM {customnav_images} WHERE settingid = ? and position = ?',[$id, $pos])->id;
     }
 
     #Function is called to create/update records for a speific role id images
-    function set_role_images(int $id, array $data): bool{
+    public function set_role_images(int $id, array $data): bool{
         global $DB;
         $settingid = $this->get_role_settings_id($id);
         foreach($data as $dat){
@@ -118,18 +122,19 @@ class lib{
     }
 
     #Function is called to get all images for a specific role id
-    function get_role_images_roleid(int $id): array{
+    public function get_role_images_roleid(int $id): array{
         global $DB;
         $records = $DB->get_records_sql('SELECT * FROM {customnav_images} WHERE settingid = ?',[$this->get_role_settings_id($id)]);
         $array = [];
         foreach($records as $record){
             array_push($array, [$record->position, $record->url, $record->image, $record->text, $record->alttext]);
         }
+        asort($array);
         return $array;
     }
 
     #Function is called to remove a specific icon with a specified position and role id
-    function remove_role_images(int $roleid, int $pos): bool{
+    public function remove_role_images(int $roleid, int $pos): bool{
         global $DB;
         $settingid = $this->get_role_settings_id($roleid);
         if(!$DB->record_exists('customnav_images', [$DB->sql_compare_text('settingid') => $settingid, $DB->sql_compare_text('position') => $pos])){
@@ -154,5 +159,64 @@ class lib{
             }
         }
         return true;
+    }
+
+    #Function is called to get the highest capaibility role the current user has
+    public function get_current_role(): string{
+        global $DB;
+        global $USER;
+        $types = $this->get_roles();
+        $records = $DB->get_records_sql('SELECT * FROM {role_assignments} WHERE userid = ?',[$USER->id]);
+        $roles = [];
+        foreach($records as $record){
+            foreach($types as $type){
+                if($record->roleid == $type[1]){
+                    if(!in_array($type[2], $roles)){
+                        array_push($roles, $type[2]);
+                    }
+                }
+            }
+        }
+        if(in_array('manager', $roles)){
+            return 'manager';
+        } elseif(in_array('editingteacher', $roles)){
+            return 'editingteacher';
+        } elseif(in_array('teacher', $roles)){
+            return 'teacher';
+        } elseif(in_array('student', $roles)){
+            return 'student';
+        } else {
+            return '';
+        }
+    }
+
+    #Function is called to get the role id for a specific archetype
+    public function get_archetype_roleid(string $archetype): int{
+        global $DB;
+        if($archetype == 'manager' || $archetype == 'editingteacher' || $archetype == 'teacher' || $archetype == 'student'){
+            return $DB->get_record_sql('SELECT id FROM {role} WHERE archetype = ?',[$archetype])->id;
+        } else {
+            return 0;
+        }
+    }
+
+    #Function is called to get the custom navigation for a specific role archetype
+    public function get_archetype_content(string $archetype): array{
+        $array = [];
+        if($archetype == 'manager' || $archetype == 'editingteacher' || $archetype == 'teacher' || $archetype == 'student'){
+            $roleid = $this->get_archetype_roleid($archetype);
+            if($roleid != 0){
+                return [$this->get_role_settings($roleid), $this->get_role_images_roleid($roleid)];
+            }
+        }
+        return $array;
+    }
+
+    #Get a course where the archetype provided is assigned to the current user
+    public function get_archetype_courseid(string $archetype): int{
+        global $DB;
+        global $USER;
+        
+        return 0;
     }
 }

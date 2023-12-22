@@ -35,6 +35,6 @@ $template = (object)[
 echo $OUTPUT->render_from_template('block_customnav/configuration', $template);
 
 #Output script tag with the js
-echo("<script src='./amd/src/configuration.js' defer></script>");
+echo("<script src='./amd/min/configuration.min.js' defer></script>");
 #Output footer HTML
 echo $OUTPUT->footer();
