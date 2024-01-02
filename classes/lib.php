@@ -202,21 +202,35 @@ class lib{
 
     #Function is called to get the custom navigation for a specific role archetype
     public function get_archetype_content(string $archetype): array{
-        $array = [];
         if($archetype == 'manager' || $archetype == 'editingteacher' || $archetype == 'teacher' || $archetype == 'student'){
             $roleid = $this->get_archetype_roleid($archetype);
             if($roleid != 0){
-                return [$this->get_role_settings($roleid), $this->get_role_images_roleid($roleid)];
+                if($this->check_role_setting_exists($roleid) && $this->check_role_images_exists($roleid)){
+                    return [$this->get_role_settings($roleid), $this->get_role_images_roleid($roleid)];
+                }
             }
         }
-        return $array;
+        return [];
     }
 
     #Get a course where the archetype provided is assigned to the current user
     public function get_archetype_courseid(string $archetype): int{
         global $DB;
         global $USER;
-        
+        if($archetype == 'editingteacher' || $archetype == 'teacher' || $archetype == 'student'){
+            $roleid = $this->get_archetype_roleid($archetype);
+            if($roleid != 0){
+                $record = $DB->get_record_sql('SELECT ra.id as id, e.courseid as courseid FROM {user_enrolments} ue
+                    INNER JOIN {enrol} e ON e.id = ue.enrolid
+                    INNER JOIN {context} c ON c.instanceid = e.courseid
+                    INNER JOIN {role_assignments} ra ON ra.contextid = c.id
+                    WHERE ra.roleid = ? AND ue.userid = ? AND ue.status = 0 AND ra.userid = ue.userid',
+                [$roleid, $USER->id]);
+                if($record != null){
+                    return $record->courseid;
+                }
+            }
+        }
         return 0;
     }
 }
