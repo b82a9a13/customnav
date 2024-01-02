@@ -63,11 +63,95 @@ class block_customnav extends block_base{
                     $this->content->text .= "</div>";
                 }
             } elseif($role == 'editingteacher'){
-                $this->content->text .= "Editing Coach Navigation";
+                #Require the relevant capability and ensure the user has the relevant role
+                $courseid = $lib->get_archetype_courseid($role);
+                if($courseid != 0){
+                    if(has_capability('block/customnav:coach', context_course::instance($courseid))){
+                        require_capability('block/customnav:coach', context_course::instance($courseid));
+                        #Get the data for the specified role archetype
+                        $array = $lib->get_archetype_content($role);
+                        #Determine if there is any data and create the html if there is any and output it to the block
+                        if($array != [] && $array[1] != [] && $array[0] != []){
+                            $aspect = ($array[0][2] == 1) ? "object-fit:contain;" : "";
+                            $style = "width:".$array[0][0]."px;height:".$array[0][1]."px;$aspect";
+                            $this->content->text .= "<div class='text-center'>";
+                            $pos = 0;
+                            foreach($array[1] as $arr){
+                                if($pos == $array[0][3]){
+                                    $pos = 0;
+                                    $this->content->text .= "</div><div class='text-center'>";
+                                }
+                                if($arr[2] != null){
+                                    $this->content->text .= "<a href='$arr[1]' class='mr-1 ml-1'><img style='$style' src='$arr[2]'></a>";
+                                } elseif($arr[3] != null){
+                                    $this->content->text .= "<a href='$arr[1]' class='mr-1 ml-1'>$arr[3]</a>";
+                                }
+                                $pos++;
+                            }
+                            $this->content->text .= "</div>";
+                        }
+                    }
+                }
             } elseif($role == 'teacher'){
-                $this->content->text .= "Coach Navigation";
+                #Require the relevant capability and ensure the user has the relevant role
+                $courseid = $lib->get_archetype_courseid($role);
+                if($courseid != 0){
+                    if(has_capability('block/customnav:coach', context_course::instance($courseid))){
+                        require_capability('block/customnav:coach', context_course::instance($courseid));
+                        #Get the data for the specified role archetype
+                        $array = $lib->get_archetype_content($role);
+                        #Determine if there is any data and create the html if there is any and output it to the block
+                        if($array != [] && $array[1] != [] && $array[0] != []){
+                            $aspect = ($array[0][2] == 1) ? "object-fit:contain;" : "";
+                            $style = "width:".$array[0][0]."px;height:".$array[0][1]."px;$aspect";
+                            $this->content->text .= "<div class='text-center'>";
+                            $pos = 0;
+                            foreach($array[1] as $arr){
+                                if($pos == $array[0][3]){
+                                    $pos = 0;
+                                    $this->content->text .= "</div><div class='text-center'>";
+                                }
+                                if($arr[2] != null){
+                                    $this->content->text .= "<a href='$arr[1]' class='mr-1 ml-1'><img style='$style' src='$arr[2]'></a>";
+                                } elseif($arr[3] != null){
+                                    $this->content->text .= "<a href='$arr[1]' class='mr-1 ml-1'>$arr[3]</a>";
+                                }
+                                $pos++;
+                            }
+                            $this->content->text .= "</div>";
+                        }
+                    }
+                }
             } elseif($role == 'student'){
-                $this->content->text .= "Learner Navigation";
+                #Require the relevant capability and ensure the user has the relevant role
+                $courseid = $lib->get_archetype_courseid($role);
+                if($courseid != 0){
+                    if(has_capability('block/customnav:learner', context_course::instance($courseid))){
+                        require_capability('block/customnav:learner', context_course::instance($courseid));
+                        #Get the data for the specified role archetype
+                        $array = $lib->get_archetype_content($role);
+                        #Determine if there is any data and create the html if there is any and output it to the block
+                        if($array != [] && $array[1] != [] && $array[0] != []){
+                            $aspect = ($array[0][2] == 1) ? "object-fit:contain;" : "";
+                            $style = "width:".$array[0][0]."px;height:".$array[0][1]."px;$aspect";
+                            $this->content->text .= "<div class='text-center'>";
+                            $pos = 0;
+                            foreach($array[1] as $arr){
+                                if($pos == $array[0][3]){
+                                    $pos = 0;
+                                    $this->content->text .= "</div><div class='text-center'>";
+                                }
+                                if($arr[2] != null){
+                                    $this->content->text .= "<a href='$arr[1]' class='mr-1 ml-1'><img style='$style' src='$arr[2]'></a>";
+                                } elseif($arr[3] != null){
+                                    $this->content->text .= "<a href='$arr[1]' class='mr-1 ml-1'>$arr[3]</a>";
+                                }
+                                $pos++;
+                            }
+                            $this->content->text .= "</div>";
+                        }
+                    }
+                }
             }
         }
     }

@@ -5,17 +5,10 @@ $capabilities = [
         'captype' => 'read',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => [
-            'teacher' => CAP_ALLOW
-        ]
-    ],
-    'block/customnav:coachedit' => [
-        'riskbitmask' => RISK_SPAM,
-        'captype' => 'read',
-        'contextlevel' => CONTEXT_COURSE,
-        'archetypes' => [
+            'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW
         ]
-    ],  
+    ],
     'block/customnav:learner' => [
         'riskbitmask' => RISK_SPAM,
         'captype' => 'read',
