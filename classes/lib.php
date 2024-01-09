@@ -61,11 +61,21 @@ class lib{
         $record->iconsperrow = $icons;
         if(!$DB->record_exists('customnav_settings', [$DB->sql_compare_text('roleid') => $id])){
             #Insert a record into the table
-            return ($DB->insert_record('customnav_settings', $record)) ? true : false;
+            if($DB->insert_record('customnav_settings', $record)){
+                \block_customnav\event\created_customnav_settings::create(array('context' => \context_system::instance(), 'other' => $id))->trigger();
+                return true;
+            } else {
+                return false;
+            }
         } else {
             #Add the id to the record class and update the record
             $record->id = $this->get_role_settings_id($id);
-            return ($DB->update_record('customnav_settings', $record)) ? true : false;
+            if($DB->update_record('customnav_settings', $record)){
+                \block_customnav\event\updated_customnav_settings::create(array('context' => \context_system::instance(), 'other' => $id))->trigger();
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 
@@ -110,11 +120,15 @@ class lib{
                 $record->id = $this->get_role_images_id($settingid, $dat[0]);
                 if($DB->update_record('customnav_images', $record) == false){
                     return false;
+                } else {
+                    \block_customnav\event\updated_customnav_images::create(array('context' => \context_system::instance(), 'other' => [$id, $dat[0]]))->trigger();
                 }
             } else {
                 #Create new record
                 if($DB->insert_record('customnav_images', $record) == false){
                     return false;
+                } else {
+                    \block_customnav\event\created_customnav_images::create(array('context' => \context_system::instance(), 'other' => [$id, $dat[0]]))->trigger();
                 }
             }
         }
@@ -157,6 +171,7 @@ class lib{
                 }
                 $pos++;
             }
+            \block_customnav\event\deleted_customnav_images::create(array('context' => \context_system::instance(), 'other' => [$roleid, $pos]))->trigger();
         }
         return true;
     }

@@ -40,6 +40,7 @@ if(!isset($_POST['id'])){
             $return['success']->height = $values[1];
             $return['success']->aspect = ($values[2] == 1) ? true : false;
             $return['success']->icons = $values[3];
+            \block_customnav\event\viewed_customnav_settings::create(array('context' => \context_system::instance(), 'other' => $id))->trigger();
         }
         #Set session cookie to the id of the current role setting
         $_SESSION['cn_rs_form_id'] = $id;

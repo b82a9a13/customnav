@@ -61,6 +61,7 @@ if(!isset($_POST['id'])){
                 </div>
                 ";
             }
+            \block_customnav\event\viewed_customnav_images::create(array('context' => \context_system::instance(), 'other' => $id))->trigger();
         }
         $return['success'] = str_replace("  ","",$return['success']);
         $_SESSION['cn_rd_form_id'] = $id;
