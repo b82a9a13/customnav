@@ -7,3 +7,7 @@
 */
 
 defined('MOODLE_INTERNAL') || die();
+
+if($hassiteconfig){
+    //Add a link to the navigation block to access the configuration page for the plugin
+}

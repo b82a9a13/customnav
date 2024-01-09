@@ -54,13 +54,14 @@ class block_customnav extends block_base{
                             $this->content->text .= "</div><div class='text-center'>";
                         }
                         if($arr[2] != null){
-                            $this->content->text .= "<a href='$arr[1]' class='mr-1 ml-1'><img style='$style' src='$arr[2]'></a>";
+                            $this->content->text .= "<a href='$arr[1]' class='mr-1 ml-1'><img style='$style' src='$arr[2]' alt='$arr[4]'></a>";
                         } elseif($arr[3] != null){
                             $this->content->text .= "<a href='$arr[1]' class='mr-1 ml-1'>$arr[3]</a>";
                         }
                         $pos++;
                     }
                     $this->content->text .= "</div>";
+                    \block_customnav\event\viewed_customnav_manager::create(array('context' => \context_system::instance(), 'other' => $role))->trigger();
                 }
             } elseif($role == 'editingteacher'){
                 #Require the relevant capability and ensure the user has the relevant role
@@ -82,13 +83,14 @@ class block_customnav extends block_base{
                                     $this->content->text .= "</div><div class='text-center'>";
                                 }
                                 if($arr[2] != null){
-                                    $this->content->text .= "<a href='$arr[1]' class='mr-1 ml-1'><img style='$style' src='$arr[2]'></a>";
+                                    $this->content->text .= "<a href='$arr[1]' class='mr-1 ml-1'><img style='$style' src='$arr[2]' alt='$arr[4]'></a>";
                                 } elseif($arr[3] != null){
                                     $this->content->text .= "<a href='$arr[1]' class='mr-1 ml-1'>$arr[3]</a>";
                                 }
                                 $pos++;
                             }
                             $this->content->text .= "</div>";
+                            \block_customnav\event\viewed_customnav_editingteacher::create(array('context' => \context_course::instance($courseid), 'other' => $role))->trigger();
                         }
                     }
                 }
@@ -112,13 +114,14 @@ class block_customnav extends block_base{
                                     $this->content->text .= "</div><div class='text-center'>";
                                 }
                                 if($arr[2] != null){
-                                    $this->content->text .= "<a href='$arr[1]' class='mr-1 ml-1'><img style='$style' src='$arr[2]'></a>";
+                                    $this->content->text .= "<a href='$arr[1]' class='mr-1 ml-1'><img style='$style' src='$arr[2]' alt='$arr[4]'></a>";
                                 } elseif($arr[3] != null){
                                     $this->content->text .= "<a href='$arr[1]' class='mr-1 ml-1'>$arr[3]</a>";
                                 }
                                 $pos++;
                             }
                             $this->content->text .= "</div>";
+                            \block_customnav\event\viewed_customnav_teacher::create(array('context' => \context_course::instance($courseid), 'other' => $role))->trigger();
                         }
                     }
                 }
@@ -142,13 +145,14 @@ class block_customnav extends block_base{
                                     $this->content->text .= "</div><div class='text-center'>";
                                 }
                                 if($arr[2] != null){
-                                    $this->content->text .= "<a href='$arr[1]' class='mr-1 ml-1'><img style='$style' src='$arr[2]'></a>";
+                                    $this->content->text .= "<a href='$arr[1]' class='mr-1 ml-1'><img style='$style' src='$arr[2]' alt='$arr[4]'></a>";
                                 } elseif($arr[3] != null){
                                     $this->content->text .= "<a href='$arr[1]' class='mr-1 ml-1'>$arr[3]</a>";
                                 }
                                 $pos++;
                             }
                             $this->content->text .= "</div>";
+                            \block_customnav\event\viewed_customnav_student::create(array('context' => \context_course::instance($courseid), 'other' => $role))->trigger();
                         }
                     }
                 }

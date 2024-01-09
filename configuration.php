@@ -38,3 +38,5 @@ echo $OUTPUT->render_from_template('block_customnav/configuration', $template);
 echo("<script src='./amd/min/configuration.min.js' defer></script>");
 #Output footer HTML
 echo $OUTPUT->footer();
+#Log a event
+\block_customnav\event\viewed_customnav_config::create(array('context' => \context_system::instance()))->trigger();
