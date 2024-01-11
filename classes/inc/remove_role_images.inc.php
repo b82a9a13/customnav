@@ -15,12 +15,12 @@ $return = [];
 #Validate whether the required varaibles are set
 if(!isset($_SESSION['cn_rd_form_id']) || !isset($_POST['id'])){
     #Set a 'error' for the return variable
-    $return['error'] = 'Missing required value(s)';
+    $return['error'] = get_string('missing_rv', 'block_customnav');
 } else {
     $id = $_POST['id'];
     if(!preg_match("/^[0-9]*$/", $id) || empty($id)){
         #Set a 'error' for the return variable
-        $return['error'] = 'Invalid id provided';
+        $return['error'] = get_string('invalid_id_p', 'block_customnav');
     } else {
         #Set a 'success' for the return variable
         $return['success'] = ($lib->remove_role_images($_SESSION['cn_rd_form_id'], $id)) ? true : false;

@@ -13,18 +13,18 @@ class block_customnav extends block_base{
         if($role != ''){
             if($role == 'manager' && has_capability('block/customnav:admin', context_system::instance())){
                 require_capability('block/customnav:admin', context_system::instance());
-                $this->title = "Manager Navigation";
+                $this->title = get_string('manager_n', 'block_customnav');
             } elseif($role == 'editingteacher'){
-                $this->title = "Editing Coach Navigation";
+                $this->title = get_string('editing_cn', 'block_customnav');
             } elseif($role == 'teacher'){
-                $this->title = "Coach Navigation";
+                $this->title = get_string('coach_n', 'block_customnav');
             } elseif($role == 'student'){
-                $this->title = "Learner Navigation";
+                $this->title = get_string('learner_n', 'block_customnav');
             } else{
-                $this->title = "{Failed to load role} Navigation";
+                $this->title = get_string('failed_title', 'block_customnav');
             }
         } else {
-            $this->title = 'Custom Navigation';
+            $this->title = get_string('custom_n', 'block_customnav');
         }
     }
     //Content for the block
@@ -40,6 +40,8 @@ class block_customnav extends block_base{
             if($role == 'manager' && has_capability('block/customnav:admin', context_system::instance())){
                 #Requrie the relevant capability
                 require_capability('block/customnav:admin', context_system::instance());
+                #Add hyperlink to the configuration page for the plugin
+                $this->content->text = "<div class='text-center'><a href='./../blocks/customnav/configuration.php'>".get_string('custom_nc', 'block_customnav')."</a></div>";
                 #Get the data for the specified role archetype
                 $array = $lib->get_archetype_content($role);
                 #Determine if there is any data and create the html if there is any and output it to the block

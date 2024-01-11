@@ -16,35 +16,35 @@ $return = [];
 $values = [];
 #Validate whether the requried value(s) are set
 if(!isset($_SESSION['cn_rd_form_id']) || !isset($_POST['total']) || !isset($_POST['url0']) || (!isset($_FILES['image0']) && !isset($_POST['image0'])) || !isset($_POST['text0']) || !isset($_POST['alttext0'])){
-    $return['error'] = 'Missing required value(s)';
+    $return['error'] = get_string('missing_rv', 'block_customnav');
 } else {
     #Validate the total parameter
     $total = $_POST['total'];
     if(!preg_match("/^[0-9]*$/", $total) || empty($total)){
-        $return['error'] = 'Invalid total provided';
+        $return['error'] = get_string('invalid_tp', 'block_customnav');
     } else{
         #Validate whether the required values are set for the total provided
         for($i = 0; $i < $total; $i++){
             if(!isset($_POST["url$i"]) || (!isset($_FILES["image$i"]) && !isset($_POST["image$i"])) || !isset($_POST["text$i"]) || !isset($_POST["alttext$i"])){
-                $return['error'] = 'Missing required value(s) '.($i+1);
+                $return['error'] = get_string('missing_rv', 'block_customnav').' '.($i+1);
                 break;
             } elseif(!filter_var($_POST["url$i"], FILTER_VALIDATE_URL) || empty($_POST["url$i"])){
-                $return['error'] = "Invalid url ".($i+1);
+                $return['error'] = get_string('invalid_url', 'block_customnav').' '.($i+1);
                 break;
             } elseif($_POST["image$i"] == 'undefined' && empty($_POST["text$i"])){
-                $return['error'] = 'Image or text is required for a icon '.($i+1);
+                $return['error'] = get_string('image_otr', 'block_customnav').' '.($i+1);
                 break;
-            } elseif(!preg_match("/^[0-9 a-zA-z]*$/", $_POST["text$i"]) && $_POST["image$i"] != 'undefined'){
-                $return['error'] = 'Invalid text '.($i+1);
+            } elseif(!preg_match("/^[0-9 a-zA-z]*$/", $_POST["text$i"]) && $_POST["image$i"] == 'undefined'){
+                $return['error'] = get_string('invalid_t', 'block_customnav').' '.($i+1);
                 break;
             } elseif(empty($_POST["text$i"]) && (end(explode(".", $_FILES["image$i"]["name"])) != 'png' && end(explode(".", $_FILES["image$i"]["name"])) != 'jpg' && end(explode(".", $_FILES["image$i"]["name"])) != 'jpeg' || $_FILES["image$i"]["type"] != "image/jpg" && $_FILES["image$i"]["type"] != 'image/png' && $_FILES["image$i"]["type"] != 'image/jpeg')){
-                $return['error'] = 'Invalid file '.($i+1);
+                $return['error'] = get_string('invalid_f', 'block_customnav').' '.($i+1);
                 break;
             } elseif($_POST["image$i"] != 'undefined' && !empty($_POST["text$i"])){
-                $return['error'] = 'Please only use a image or text for '.($i+1).' and not both';
+                $return['error'] = get_string('image_or_text', 'block_customnav').' '.($i+1);
                 break;
             }elseif(!preg_match("/^[0-9a-z A-Z]*$/", $_POST["alttext$i"]) || empty($_POST["alttext$i"])){
-                $return['error'] = 'Invalid alt text '.($i+1);
+                $return['error'] = get_string('invalid_at', 'block_customnav').' '.($i+1);
                 break;
             } else {
                 //[Position, isImage, url, image/text, alttext]
