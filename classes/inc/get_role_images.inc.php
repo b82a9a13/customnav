@@ -14,18 +14,18 @@ $lib = new lib;
 $return = [];
 #Handle the post data and send reponses dependant on the data recieved
 if(!isset($_POST['id'])){
-    $return['error'] = 'No ID provided.';
+    $return['error'] = get_string('no_id_p', 'block_customnav');
 } else {
     $id = $_POST['id'];
     if(!preg_match("/^[0-9]*$/", $id) || empty($id)){
         #ID is not a number
-        $return['error'] = 'Invalid ID provided.';
+        $return['error'] = get_string('invalid_id_p', 'block_customnav');
     } elseif($lib->check_role_id($id) != true){
         #Role with the id provided does not exist
-        $return['error'] = 'Invalid ID provided';
+        $return['error'] = get_string('invalid_id_p', 'block_customnav');
     } elseif($lib->check_role_setting_exists($id) != true){
         #Role settings doesn't exist
-        $return['error'] = 'Settings for the role does not exist, please create the settings.';
+        $return['error'] = get_string('setting_ne', 'block_customnav');
     } else {
         #Proceed if the validation has passed
         $settings = $lib->get_role_settings($id);

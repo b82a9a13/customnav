@@ -15,7 +15,7 @@ $return = [];
 #Handle the post data and send reponses dependant on the data recieved
 #Validate whether the required paramaters are set
 if(!isset($_SESSION['cn_rs_form_id']) || !isset($_POST['width']) || !isset($_POST['height']) || !isset($_POST['aspect']) || !isset($_POST['icons'])){
-    $return['error'] = 'Missing required value(s).';
+    $return['error'] = get_string('missing_rv', 'block_customnav');
 }else {
     #Set variables
     $id = $_SESSION['cn_rs_form_id'];
@@ -26,31 +26,31 @@ if(!isset($_SESSION['cn_rs_form_id']) || !isset($_POST['width']) || !isset($_POS
     #Validation
     if(!preg_match("/^[0-9]*$/", $id) || empty($id)){
         #ID is not a number
-        $return['error'] = 'Required value is not number.';
+        $return['error'] = get_string('invalid_id_p', 'block_customnav');
     } elseif($lib->check_role_id($id) != true){
         #Role with the id provided does not exist
-        $return['error'] = 'Invalid required value provided';
+        $return['error'] = get_string('invalid_id_p', 'block_customnav');
     } elseif(!preg_match("/^[0-9]*$/", $width) || empty($width)){
         #Invalid with provided
-        $return['error'] = 'Invalid width provided.';
+        $return['error'] = get_string('invalid_wp', 'block_customnav');
     } elseif(!preg_match("/^[0-9]*$/", $height) || empty($height)){
         #Invalid height provided
-        $return['error'] = 'Invalid height provided.';
+        $return['error'] = get_string('invalid_hp', 'block_customnav');
     } elseif($aspect != 1 && $aspect != 0){
         #Invalid aspect ratio provided
-        $return['error'] = 'Invalid aspect ratio.';
+        $return['error'] = get_string('invalid_ar', 'block_customnav');
     } elseif(!preg_match("/^[0-9]*$/", $icons) || empty($icons)){
         #Invalid icons per row provided
-        $return['error'] = 'Invalid icons per row provided.';
+        $return['error'] = get_string('invalid_iprp', 'block_customnav');
     } elseif($width < 10){
         #Width is less than 10
-        $return['error'] = 'Width must be 10 or greater.';
+        $return['error'] = get_string('width_mbg', 'block_customnav');
     } elseif($height < 10){
         #Height is less than 10
-        $return['error'] = 'Height must be 10 or greater.';
+        $return['error'] = get_string('height_mbg', 'block_customnav');
     } elseif($icons < 1){
         #Icons per row is less than 1
-        $return['error'] = 'Icons per row must be 1 or greater.';
+        $return['error'] = get_string('icons_mbg', 'block_customnav');
     } else {
         #Proceed if validation has passed
         $return['success'] = ($lib->set_role_settings($id, $width, $height, $aspect, $icons)) ? true : false;
