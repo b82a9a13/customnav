@@ -35,10 +35,11 @@ if(!isset($_POST['id'])){
         if($lib->check_role_images_exists($id) != true){
             #Create starter HTML if there isn't any images already in the customnav_images table
             $return['success'] = "
-                <div class='cn-image-div-inner'>
+                <div class='cn-image-div-inner border'>
                     <span class='c-pointer' onclick='cn_remove_icon(0)'><b>X</b></span>
                     <h4 class='text-center'>1</h4>
                     <p>URL: <input class='cn-rd-form-url' type='text' required></p>
+                    <p><span class='c-pointer' onclick='cn_remove_img(0)'><b>X</b></span></p>
                     <img class='cn-rd-form-img' style='width:$settings[0]px;height:$settings[1]px;$aspect' src=''>
                     <p>Image: <input class='cn-rd-form-image' type='file' onchange='cn_new_file(0)'></p>
                     <p>Text: <input class='cn-rd-form-text' type='text'></p>
@@ -50,10 +51,11 @@ if(!isset($_POST['id'])){
             $array = $lib->get_role_images_roleid($id);
             foreach($array as $arr){
                 $return['success'] .= "
-                <div class='cn-image-div-inner'>
+                <div class='cn-image-div-inner border'>
                     <span class='c-pointer' onclick='cn_remove_icon(".($arr[0]-1).")'><b>X</b></span>
                     <h4 class='text-center'>$arr[0]</h4>
                     <p>URL: <input class='cn-rd-form-url' type='text' required value='$arr[1]'></p>
+                    <p><span class='c-pointer' onclick='cn_remove_img(".($arr[0]-1).")'><b>X</b></span></p>
                     <img class='cn-rd-form-img' style='width:$settings[0]px;height:$settings[1]px;$aspect' src='$arr[2]'>
                     <p>Image: <input class='cn-rd-form-image' type='file' onchange='cn_new_file(".($arr[0]-1).")'></p>
                     <p>Text: <input class='cn-rd-form-text' type='text' value='$arr[3]'></p>

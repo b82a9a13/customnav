@@ -25,12 +25,15 @@
 //H
     $string['height'] = 'Height';
     $string['height_mbg'] = 'Height must be 10 or greater';
+    $string['height_mbl'] = 'Height must be 250 or less';
 //I
     $string['icons_pr'] = 'Icons Per Row';
     $string['icons_mbg'] = 'Icons per row must be 1 or greater';
+    $string['icons_mbl'] = 'Icons per row must be 12 or less';
+    $string['invalid_c'] = 'Invalid characters: ';
     $string['invalid_ar'] = 'Invalid aspect ratio';
     $string['invalid_at'] = 'Invalid alt text';
-    $string['invalid_f'] = 'Invalid file';
+    $string['invalid_i'] = 'Invalid image';
     $string['invalid_t'] = 'Invalid text';
     $string['invalid_id_p'] = 'Invalid ID provided';
     $string['invalid_iprp'] = 'Invalid icons per row provided';
@@ -66,6 +69,7 @@
 //W
     $string['width'] = 'Width';
     $string['width_mbg'] = 'Width must be 10 or greater';
+    $string['width_mbl'] = 'Width must be 250 or less';
 //X
 //Y
 //Z

@@ -174,6 +174,7 @@ function role_displays(id){
                 } else if(text['success']){
                     successText.innerText = 'Success';
                     successText.style.display = 'block';
+                    $('.cn_rd_form_h4')[0].innerText = $(`#cn_role_display${id}`)[0].innerText;
                     $(`#cn_rd_form_div`)[0].innerHTML = text['success'];
                     div.style.display = 'block';
                     //Remove success message after 1 second
@@ -204,7 +205,7 @@ function cn_new_icon(){
         const maxLength = $(`.cn-rd-form-img`).length;
         //Create div element
         const div = $('<div>');
-        div.attr('class', 'cn-image-div-inner');
+        div.attr('class', 'cn-image-div-inner border');
         //create span element
         const span = $('<span>').addClass('c-pointer').attr({onclick: `cn_remove_icon(${maxLength})`}).append($('<b>').text('X'));
         div.append(span);
@@ -214,9 +215,11 @@ function cn_new_icon(){
         //Create URL input element
         const url = $('<p>').text('URL: ').append($('<input>').addClass('cn-rd-form-url').attr({type: 'text', required: true}));
         div.append(url);
+        //Create delete image element
+        div.append($('<p>').addClass('c-pointer').attr({onclick: `cn_remove_img(${maxLength})`}).append($('<b>').text('X')));
         //Create img element
         imgElement = $(`.cn-rd-form-img`)[0];
-        const img = $('<img>').addClass('cn-rd-form-img')
+        const img = $('<img>').addClass('cn-rd-form-img');
         //Make the image keep the aspect ratio if it is included in the style already
         if(imgElement.getAttribute('style').includes('object-fit:contain;')){
             img.attr({
@@ -332,6 +335,15 @@ function cn_remove_icon(pos){
         errorText.style.display = 'block';
     }
 }
+//Function is called to remove the image for a specific icon
+function cn_remove_img(pos){
+    if(pos < $(`.cn-rd-form-image`).length && pos >= 0 && $(`.cn-rd-form-img`).length == $(`.cn-rd-form-image`).length){
+        const file = $(`.cn-rd-form-image`)[pos];
+        const img = $(`.cn-rd-form-img`)[pos];
+        file.value = '';
+        img.src = '';
+    } 
+}
 //Add event listener to the role display form
 $(`#cn_rd_form`)[0].addEventListener('submit', function(e){
     e.preventDefault();
@@ -342,10 +354,10 @@ $(`#cn_rd_form`)[0].addEventListener('submit', function(e){
     const successText = $(`#cn_rd_success`)[0];
     successText.style.display = 'none';
     //Check if the elements with specific classes exists
-    if($(`.cn-rd-form-url`).length > 0 && $(`.cn-rd-form-image`).length > 0 && $(`.cn-rd-form-text`).length > 0 && $(`.cn-rd-form-alttext`).length > 0 && $(`.cn-rd-form-url`).length == $(`.cn-rd-form-image`).length && $(`.cn-rd-form-alttext`).length == $(`.cn-rd-form-text`).length && $(`.cn-rd-form-image`).length == $(`.cn-rd-form-alttext`).length){
+    if($(`.cn-rd-form-url`).length > 0 && $(`.cn-rd-form-img`).length > 0 && $(`.cn-rd-form-text`).length > 0 && $(`.cn-rd-form-alttext`).length > 0 && $(`.cn-rd-form-url`).length == $(`.cn-rd-form-img`).length && $(`.cn-rd-form-alttext`).length == $(`.cn-rd-form-text`).length && $(`.cn-rd-form-img`).length == $(`.cn-rd-form-alttext`).length){
         //Define variables which contian the form data
         const url = $(`.cn-rd-form-url`);
-        const image = $(`.cn-rd-form-image`);
+        const img = $(`.cn-rd-form-img`);
         const text = $(`.cn-rd-form-text`);
         const alttext = $(`.cn-rd-form-alttext`);
         //Create the request
@@ -353,8 +365,12 @@ $(`#cn_rd_form`)[0].addEventListener('submit', function(e){
         url.each(function(index, element){
             request.append(`url${index}`, element.value);
         });
-        image.each(function(index, element){
-            request.append(`image${index}`, element.files[0]);
+        img.each(function(index, element){
+            if(element.src.includes('://') == false){
+                request.append(`img${index}`, element.src);
+            } else {
+                request.append(`img${index}`, '');
+            }
         });
         text.each(function(index, element){
             request.append(`text${index}`, element.value);

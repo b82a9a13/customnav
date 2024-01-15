@@ -51,7 +51,13 @@ if(!isset($_SESSION['cn_rs_form_id']) || !isset($_POST['width']) || !isset($_POS
     } elseif($icons < 1){
         #Icons per row is less than 1
         $return['error'] = get_string('icons_mbg', 'block_customnav');
-    } else {
+    } elseif($width > 250){
+        $return['error'] = get_string('width_mbl', 'block_customnav');
+    } elseif($height > 250){
+        $return['error'] = get_string('height_mbl', 'block_customnav');
+    } elseif($icons > 12){
+        $return['error'] = get_string('icons_mbl', 'block_customnav');
+    }else {
         #Proceed if validation has passed
         $return['success'] = ($lib->set_role_settings($id, $width, $height, $aspect, $icons)) ? true : false;
     }

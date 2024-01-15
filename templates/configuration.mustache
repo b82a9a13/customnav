@@ -3,7 +3,7 @@
     <button class='btn btn-primary cn-view-div' onclick='cn_view_div(0)'>{{txt_settings}}</button>
     <button class='btn btn-primary cn-view-div' onclick='cn_view_div(1)'>{{txt_displays}}</button>
 </div>
-<div class='cn-nav-div' style='display:none;'>
+<div class='cn-nav-div block' style='display:none;'>
     <h1 class='text-center'>{{txt_settings}}</h1>
     <ul class='cn-ul'>
         {{#roles_array}}
@@ -14,10 +14,10 @@
         <div id="cn_rs_div" class='text-center' style='display:none;'>
             <form id="cn_rs_form">
                 <h4 id="cn_rs_form_h4"></h4>
-                <p>{{txt_width}}: <input id="cn_rs_form_width" type='number' min="10" required></p>
-                <p>{{txt_height}}: <input id="cn_rs_form_height" type='number' min="10" required></p>
+                <p>{{txt_width}}: <input id="cn_rs_form_width" type='number' min="10" max="250" required></p>
+                <p>{{txt_height}}: <input id="cn_rs_form_height" type='number' min="10" max="250" required></p>
                 <p>{{txt_keep_ar}}: <input id="cn_rs_form_aspect" type='checkbox'></p>
-                <p>{{txt_icons_pr}}: <input id="cn_rs_form_icons" type='number' min="1" required></p>
+                <p>{{txt_icons_pr}}: <input id="cn_rs_form_icons" type='number' min="1" max="12" required></p>
                 <button class='btn btn-primary' id="cn_rs_form_submit" type='submit'>{{txt_submit}}</button>
             </form>
         </div>
@@ -25,17 +25,17 @@
         <h4 class='text-center text-success' id="cn_rs_success"></h4>
     </div>
 </div>
-<div class='cn-nav-div' style='display:none;'>
+<div class='cn-nav-div block' style='display:none;'>
     <h1 class='text-center'>{{txt_displays}}</h2>
     <ul class='cn-ul'>
         {{#roles_array}}
-        <li class='ml-1 mr-1 p-1 c-pointer' onclick='role_displays({{1}})'><h4>{{0}}</h4></li>
+        <li class='ml-1 mr-1 p-1 c-pointer' onclick='role_displays({{1}})'><h4 id='cn_role_display{{1}}'>{{0}}</h4></li>
         {{/roles_array}}
     </ul>
     <div>
         <div id="cn_rd_div" class='text-center' style='display:none;'>
             <form id="cn_rd_form">
-                <h4 class="cn_rd_form_h4">{{txt_role}}</h4>
+                <h4 class="cn_rd_form_h4"></h4>
                 <div id="cn_rd_form_div" class="cn-image-div-outer"></div>
                 <div>
                     <button class='btn btn-primary' id="cn_rd_form_submit" type="submit">{{txt_submit}}</button>
