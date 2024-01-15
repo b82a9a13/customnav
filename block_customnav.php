@@ -63,8 +63,8 @@ class block_customnav extends block_base{
                         $pos++;
                     }
                     $this->content->text .= "</div>";
-                    \block_customnav\event\viewed_customnav_manager::create(array('context' => \context_system::instance(), 'other' => $role))->trigger();
                 }
+                \block_customnav\event\viewed_customnav_manager::create(array('context' => \context_system::instance(), 'other' => $role))->trigger();
             } elseif($role == 'editingteacher'){
                 #Require the relevant capability and ensure the user has the relevant role
                 $courseid = $lib->get_archetype_courseid($role);
