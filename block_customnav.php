@@ -6,6 +6,8 @@
 //use the lib class
 use block_customnav\lib;
 class block_customnav extends block_base{
+    //Create rendered variable which is used to determine whether the content has already been rendered
+    private $rendered = false;
     //Initialization function, defines title
     public function init(){
         $lib = new lib();
@@ -29,6 +31,11 @@ class block_customnav extends block_base{
     }
     //Content for the block
     public function get_content(){
+        //Return content if it has already been rendered
+        if($this->rendered){
+            //Return the content
+            return $this->content;
+        }
         //Add a empty string to the content text
         $this->content = new stdClass();
         $this->content->text = '';
@@ -160,5 +167,9 @@ class block_customnav extends block_base{
                 }
             }
         }
+        //Set rendered to true once it has been rendered
+        $this->rendered = true;
+        //Return the content
+        return $this->content;
     }
 }

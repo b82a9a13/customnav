@@ -213,7 +213,7 @@ function cn_new_icon(){
         const h4 = $('<h4>').addClass('text-center').text(`${maxLength + 1}`)
         div.append(h4);
         //Create URL input element
-        const url = $('<p>').text('URL: ').append($('<input>').addClass('cn-rd-form-url').attr({type: 'text', required: true}));
+        const url = $('<p>').text('URL: ').append($('<input>').addClass('cn-rd-form-url w-75').attr({type: 'text', required: true}));
         div.append(url);
         //Create delete image element
         div.append($('<p>').addClass('c-pointer').attr({onclick: `cn_remove_img(${maxLength})`}).append($('<b>').text('X')));
@@ -237,10 +237,10 @@ function cn_new_icon(){
         const image = $('<p>').text('Image: ').append($('<input>').addClass('cn-rd-form-image').attr({type: 'file', onchange: `cn_new_file(${maxLength})`}));
         div.append(image);
         //Create text element
-        const text = $('<p>').text('Text: ').append($('<input>').addClass('cn-rd-form-text').attr({type: 'text'}));
+        const text = $('<p>').text('Text: ').append($('<input>').addClass('cn-rd-form-text w-75').attr({type: 'text'}));
         div.append(text);
         //Create alttext element
-        const alttext = $('<p>').text('Alt text: ').append($('<input>').addClass('cn-rd-form-alttext').attr({type: 'text'}));
+        const alttext = $('<p>').text('Alt text: ').append($('<input>').addClass('cn-rd-form-alttext w-75').attr({type: 'text'}));
         div.append(alttext);
         //Append new div
         $(`#cn_rd_form_div`).append(div);

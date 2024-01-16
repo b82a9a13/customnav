@@ -38,12 +38,12 @@ if(!isset($_POST['id'])){
                 <div class='cn-image-div-inner border'>
                     <span class='c-pointer' onclick='cn_remove_icon(0)'><b>X</b></span>
                     <h4 class='text-center'>1</h4>
-                    <p>URL: <input class='cn-rd-form-url' type='text' required></p>
+                    <p>URL: <input class='cn-rd-form-url w-75' type='text' required></p>
                     <p><span class='c-pointer' onclick='cn_remove_img(0)'><b>X</b></span></p>
                     <img class='cn-rd-form-img' style='width:$settings[0]px;height:$settings[1]px;$aspect' src=''>
                     <p>Image: <input class='cn-rd-form-image' type='file' onchange='cn_new_file(0)'></p>
-                    <p>Text: <input class='cn-rd-form-text' type='text'></p>
-                    <p>Alt text: <input class='cn-rd-form-alttext' type='text'></p>
+                    <p>Text: <input class='cn-rd-form-text w-75' type='text'></p>
+                    <p>Alt text: <input class='cn-rd-form-alttext w-75' type='text'></p>
                 </div>
             ";
         } else {
@@ -54,18 +54,18 @@ if(!isset($_POST['id'])){
                 <div class='cn-image-div-inner border'>
                     <span class='c-pointer' onclick='cn_remove_icon(".($arr[0]-1).")'><b>X</b></span>
                     <h4 class='text-center'>$arr[0]</h4>
-                    <p>URL: <input class='cn-rd-form-url' type='text' required value='$arr[1]'></p>
+                    <p>URL: <input class='cn-rd-form-url w-75' type='text' required value='$arr[1]'></p>
                     <p><span class='c-pointer' onclick='cn_remove_img(".($arr[0]-1).")'><b>X</b></span></p>
                     <img class='cn-rd-form-img' style='width:$settings[0]px;height:$settings[1]px;$aspect' src='$arr[2]'>
                     <p>Image: <input class='cn-rd-form-image' type='file' onchange='cn_new_file(".($arr[0]-1).")'></p>
-                    <p>Text: <input class='cn-rd-form-text' type='text' value='$arr[3]'></p>
-                    <p>Alt text: <input class='cn-rd-form-alttext' type='text' value='$arr[4]'></p>
+                    <p>Text: <input class='cn-rd-form-text w-75' type='text' value='$arr[3]'></p>
+                    <p>Alt text: <input class='cn-rd-form-alttext w-75' type='text' value='$arr[4]'></p>
                 </div>
                 ";
             }
             \block_customnav\event\viewed_customnav_images::create(array('context' => \context_system::instance(), 'other' => $id))->trigger();
         }
-        $return['success'] = str_replace("  ","",$return['success']);
+        $return['success'] = str_replace("\n","", str_replace("\r","", str_replace("  ","",$return['success'])));
         $_SESSION['cn_rd_form_id'] = $id;
     }
 }

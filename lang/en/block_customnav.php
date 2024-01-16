@@ -9,6 +9,7 @@
 
 //A
     $string['add_ni'] = 'Add New Icon';
+    $string['alttext_tb'] = 'The max length for alt text is 100 characters.';
 //B
 //C
     $string['configuration'] = 'Configuration';
@@ -43,6 +44,7 @@
     $string['invalid_hp'] = 'Invalid height provided';
     $string['image_otr'] = 'Image or text is required for a icon';
     $string['image_or_text'] = 'Please only use a image or text and not both for';
+    $string['image_tb'] = 'Image is too big, it must be less than 365kb.';
 //J
 //K
     $string['keep_ar'] = 'Keep Aspect Ratio';
@@ -64,7 +66,9 @@
     $string['submit'] = 'Submit';
     $string['setting_ne'] = 'Settings for the role does not exist, please create the settings';
 //T
+    $string['text_tb'] = 'The max length for text is 100 characters.';
 //U
+    $string['url_tb'] = 'The max length for a url is 4096 characters.';
 //V
 //W
     $string['width'] = 'Width';
