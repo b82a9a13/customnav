@@ -12,7 +12,7 @@ class lib{
     #Get all the relevant roles
     public function get_roles(): array{
         global $DB;
-        $records = $DB->get_records_sql('SELECT shortname, id, archetype FROM {role} WHERE archetype = "manager" OR archetype = "teacher" OR archetype = "editingteacher" OR archetype = "student"');
+        $records = $DB->get_records_sql('SELECT shortname, id, archetype FROM {role} WHERE (archetype = "manager" OR archetype = "teacher" OR archetype = "editingteacher" OR archetype = "student") AND (shortname = "manager" OR shortname = "teacher" OR shortname = "editingteacher" OR shortname = "student")');
         $array = [];
         foreach($records as $record){
             array_push($array, [$record->shortname, $record->id, $record->archetype]);
@@ -24,7 +24,7 @@ class lib{
     #Check if the role id provided is valid
     public function check_role_id(int $id): bool{
         global $DB;
-        return ($DB->get_record_sql('SELECT * FROM {role} WHERE (archetype = "manager" OR archetype = "teacher" OR archetype = "editingteacher" OR archetype = "student") AND id = ?',[$id])->id != null) ? true : false;
+        return ($DB->get_record_sql('SELECT * FROM {role} WHERE (archetype = "manager" OR archetype = "teacher" OR archetype = "editingteacher" OR archetype = "student") AND (shortname = "manager" OR shortname = "teacher" OR shortname = "editingteacher" OR shortname = "student") AND id = ?',[$id])->id != null) ? true : false;
     }
     
     #Check if the role id provided has settings stored in the database already
@@ -209,7 +209,7 @@ class lib{
     public function get_archetype_roleid(string $archetype): int{
         global $DB;
         if($archetype == 'manager' || $archetype == 'editingteacher' || $archetype == 'teacher' || $archetype == 'student'){
-            return $DB->get_record_sql('SELECT id FROM {role} WHERE archetype = ?',[$archetype])->id;
+            return $DB->get_record_sql('SELECT id FROM {role} WHERE archetype = ? AND shortname = archetype LIMIT 1',[$archetype])->id;
         } else {
             return 0;
         }

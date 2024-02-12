@@ -3,8 +3,8 @@
  * @package   block_customnav
  * @author    Robert Tyrone Cullen
  */
-defined('MOODLE_INTERNAL') || die();
 namespace block_customnav\event;
+defined('MOODLE_INTERNAL') || die();
 use core\event\base;
 
 class viewed_customnav_config extends base{
