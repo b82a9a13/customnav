@@ -11,7 +11,6 @@ class viewed_customnav_teacher extends base{
     protected function init(){
         $this->data['crud'] = 'r';
         $this->data['edulevel'] = self::LEVEL_OTHER;
-        $this->data['objecttable'] = 'customnav_images';
     }
     public static function get_name(){
         return 'Viewed teacher navigation';

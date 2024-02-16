@@ -24,7 +24,7 @@ class lib{
     #Check if the role id provided is valid
     public function check_role_id(int $id): bool{
         global $DB;
-        return ($DB->get_record_sql('SELECT * FROM {role} WHERE (archetype = "manager" OR archetype = "teacher" OR archetype = "editingteacher" OR archetype = "student") AND (shortname = "manager" OR shortname = "teacher" OR shortname = "editingteacher" OR shortname = "student") AND id = ?',[$id])->id != null) ? true : false;
+        return ($DB->get_record_sql('SELECT * FROM {role} WHERE (archetype = "manager" OR archetype = "teacher" OR archetype = "editingteacher" OR archetype = "student") AND (shortname = "manager" OR shortname = "teacher" OR shortname = "editingteacher" OR shortname = "student") AND id = ? LIMIT 1',[$id])->id != null) ? true : false;
     }
     
     #Check if the role id provided has settings stored in the database already
@@ -36,14 +36,14 @@ class lib{
     #Get the short name for a specific role id
     public function get_roleid_shortname(int $id): string{
         global $DB;
-        return $DB->get_record_sql('SELECT shortname FROM {role} WHERE id = ?',[$id])->shortname;
+        return $DB->get_record_sql('SELECT shortname FROM {role} WHERE id = ? LIMIT 1',[$id])->shortname;
     }
 
     #Get the id of the record for a specific role id
     private function get_role_settings_id(int $id): int{
         global $DB;
         if($DB->record_exists('customnav_settings', [$DB->sql_compare_text('roleid') => $id])){
-            return $DB->get_record_sql('SELECT id FROM {customnav_settings} WHERE roleid = ?',[$id])->id;
+            return $DB->get_record_sql('SELECT id FROM {customnav_settings} WHERE roleid = ? LIMIT 1',[$id])->id;
         } else {
             return 0;
         }
@@ -82,7 +82,7 @@ class lib{
     #Get the settings for a specific role id
     public function get_role_settings(int $id): array{
         global $DB;
-        $record = $DB->get_record_sql('SELECT * FROM {customnav_settings} WHERE roleid = ?',[$id]);
+        $record = $DB->get_record_sql('SELECT * FROM {customnav_settings} WHERE roleid = ? LIMIT 1',[$id]);
         return [$record->width, $record->height, $record->aspectratio, $record->iconsperrow];
     }
 
@@ -95,7 +95,7 @@ class lib{
     #Get a specific id of a record for a specific role and position
     private function get_role_images_id(int $id, int $pos): int{
         global $DB;
-        return $DB->get_record_sql('SELECT id FROM {customnav_images} WHERE settingid = ? and position = ?',[$id, $pos])->id;
+        return $DB->get_record_sql('SELECT id FROM {customnav_images} WHERE settingid = ? and position = ? LIMIT 1',[$id, $pos])->id;
     }
 
     #Function is called to create/update records for a speific role id images
@@ -180,8 +180,11 @@ class lib{
     public function get_current_role(): string{
         global $DB;
         global $USER;
+        #Get the ID's for the accepted roles
         $types = $this->get_roles();
+        #Get all roles assigned to the current user
         $records = $DB->get_records_sql('SELECT * FROM {role_assignments} WHERE userid = ?',[$USER->id]);
+        #Create $role array to store unique roles which the user has
         $roles = [];
         foreach($records as $record){
             foreach($types as $type){
@@ -192,6 +195,7 @@ class lib{
                 }
             }
         }
+        #Return the highest level role the in the $roles array
         if(in_array('manager', $roles)){
             return 'manager';
         } elseif(in_array('editingteacher', $roles)){
@@ -239,7 +243,7 @@ class lib{
                     INNER JOIN {enrol} e ON e.id = ue.enrolid
                     INNER JOIN {context} c ON c.instanceid = e.courseid
                     INNER JOIN {role_assignments} ra ON ra.contextid = c.id
-                    WHERE ra.roleid = ? AND ue.userid = ? AND ue.status = 0 AND ra.userid = ue.userid',
+                    WHERE ra.roleid = ? AND ue.userid = ? AND ue.status = 0 AND ra.userid = ue.userid LIMIT 1',
                 [$roleid, $USER->id]);
                 if($record != null){
                     return $record->courseid;
