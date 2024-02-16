@@ -11,7 +11,6 @@ class created_customnav_images extends base{
     protected function init(){
         $this->data['crud'] = 'c';
         $this->data['edulevel'] = self::LEVEL_OTHER;
-        $this->data['objecttable'] = 'customnav_images';
     }
     public static function get_name(){
         return 'Created a new image record';

@@ -52,10 +52,13 @@ if(!isset($_SESSION['cn_rs_form_id']) || !isset($_POST['width']) || !isset($_POS
         #Icons per row is less than 1
         $return['error'] = get_string('icons_mbg', 'block_customnav');
     } elseif($width > 250){
+        #Width is greater than 250
         $return['error'] = get_string('width_mbl', 'block_customnav');
     } elseif($height > 250){
+        #Height is greater than 250
         $return['error'] = get_string('height_mbl', 'block_customnav');
     } elseif($icons > 12){
+        #Icons per row is greater than 12
         $return['error'] = get_string('icons_mbl', 'block_customnav');
     }else {
         #Proceed if validation has passed

@@ -13,8 +13,7 @@ class block_customnav extends block_base{
         $lib = new lib();
         $role = $lib->get_current_role();
         if($role != ''){
-            if($role == 'manager' && has_capability('block/customnav:admin', context_system::instance())){
-                require_capability('block/customnav:admin', context_system::instance());
+            if($role == 'manager'){
                 $this->title = get_string('manager_n', 'block_customnav');
             } elseif($role == 'editingteacher'){
                 $this->title = get_string('editing_cn', 'block_customnav');
@@ -45,8 +44,6 @@ class block_customnav extends block_base{
         if($role != ''){
             #Check the user has the correct capability for the role in the $role variable
             if($role == 'manager' && has_capability('block/customnav:admin', context_system::instance())){
-                #Requrie the relevant capability
-                require_capability('block/customnav:admin', context_system::instance());
                 #Add hyperlink to the configuration page for the plugin
                 $this->content->text = "<div class='text-center'><a href='./../blocks/customnav/configuration.php'>".get_string('custom_nc', 'block_customnav')."</a></div>";
                 #Get the data for the specified role archetype
@@ -71,13 +68,12 @@ class block_customnav extends block_base{
                     }
                     $this->content->text .= "</div>";
                 }
-                \block_customnav\event\viewed_customnav_manager::create(array('context' => \context_system::instance(), 'other' => $role))->trigger();
+                \block_customnav\event\viewed_customnav_manager::create(array('context' => \context_system::instance(), 'other' => [$role]))->trigger();
             } elseif($role == 'editingteacher'){
                 #Require the relevant capability and ensure the user has the relevant role
                 $courseid = $lib->get_archetype_courseid($role);
                 if($courseid != 0){
                     if(has_capability('block/customnav:coach', context_course::instance($courseid))){
-                        require_capability('block/customnav:coach', context_course::instance($courseid));
                         #Get the data for the specified role archetype
                         $array = $lib->get_archetype_content($role);
                         #Determine if there is any data and create the html if there is any and output it to the block
@@ -108,7 +104,6 @@ class block_customnav extends block_base{
                 $courseid = $lib->get_archetype_courseid($role);
                 if($courseid != 0){
                     if(has_capability('block/customnav:coach', context_course::instance($courseid))){
-                        require_capability('block/customnav:coach', context_course::instance($courseid));
                         #Get the data for the specified role archetype
                         $array = $lib->get_archetype_content($role);
                         #Determine if there is any data and create the html if there is any and output it to the block
@@ -139,7 +134,6 @@ class block_customnav extends block_base{
                 $courseid = $lib->get_archetype_courseid($role);
                 if($courseid != 0){
                     if(has_capability('block/customnav:learner', context_course::instance($courseid))){
-                        require_capability('block/customnav:learner', context_course::instance($courseid));
                         #Get the data for the specified role archetype
                         $array = $lib->get_archetype_content($role);
                         #Determine if there is any data and create the html if there is any and output it to the block

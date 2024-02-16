@@ -14,6 +14,7 @@ $lib = new lib;
 $return = [];
 #Handle the post data and send reponses dependant on the data recieved
 if(!isset($_POST['id'])){
+    #No ID provided
     $return['error'] = get_string('no_id_p', 'block_customnav');
 } else {
     $id = $_POST['id'];
@@ -49,6 +50,7 @@ if(!isset($_POST['id'])){
         } else {
             #Create HTML dependant on how many image records are available for the current role id provided
             $array = $lib->get_role_images_roleid($id);
+            $return['success'] = "";
             foreach($array as $arr){
                 $return['success'] .= "
                 <div class='cn-image-div-inner border'>

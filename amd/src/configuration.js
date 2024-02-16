@@ -204,17 +204,13 @@ function cn_new_icon(){
     if($(`.cn-rd-form-img`).length > 0){
         const maxLength = $(`.cn-rd-form-img`).length;
         //Create div element
-        const div = $('<div>');
-        div.attr('class', 'cn-image-div-inner border');
+        const div = $('<div>').attr('class', 'cn-image-div-inner border');
         //create span element
-        const span = $('<span>').addClass('c-pointer').attr({onclick: `cn_remove_icon(${maxLength})`}).append($('<b>').text('X'));
-        div.append(span);
+        div.append($('<span>').addClass('c-pointer').attr({onclick: `cn_remove_icon(${maxLength})`}).append($('<b>').text('X')));
         //Create h4 element
-        const h4 = $('<h4>').addClass('text-center').text(`${maxLength + 1}`)
-        div.append(h4);
+        div.append($('<h4>').addClass('text-center').text(`${maxLength + 1}`));
         //Create URL input element
-        const url = $('<p>').text('URL: ').append($('<input>').addClass('cn-rd-form-url w-75').attr({type: 'text', required: true}));
-        div.append(url);
+        div.append($('<p>').text('URL: ').append($('<input>').addClass('cn-rd-form-url w-75').attr({type: 'text', required: true})));
         //Create delete image element
         div.append($('<p>').addClass('c-pointer').attr({onclick: `cn_remove_img(${maxLength})`}).append($('<b>').text('X')));
         //Create img element
@@ -234,14 +230,11 @@ function cn_new_icon(){
         }
         div.append(img);
         //Create image element
-        const image = $('<p>').text('Image: ').append($('<input>').addClass('cn-rd-form-image').attr({type: 'file', onchange: `cn_new_file(${maxLength})`}));
-        div.append(image);
+        div.append($('<p>').text('Image: ').append($('<input>').addClass('cn-rd-form-image').attr({type: 'file', onchange: `cn_new_file(${maxLength})`})));
         //Create text element
-        const text = $('<p>').text('Text: ').append($('<input>').addClass('cn-rd-form-text w-75').attr({type: 'text'}));
-        div.append(text);
+        div.append($('<p>').text('Text: ').append($('<input>').addClass('cn-rd-form-text w-75').attr({type: 'text'})));
         //Create alttext element
-        const alttext = $('<p>').text('Alt text: ').append($('<input>').addClass('cn-rd-form-alttext w-75').attr({type: 'text'}));
-        div.append(alttext);
+        div.append($('<p>').text('Alt text: ').append($('<input>').addClass('cn-rd-form-alttext w-75').attr({type: 'text'})));
         //Append new div
         $(`#cn_rd_form_div`).append(div);
     }

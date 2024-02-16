@@ -11,13 +11,12 @@ class viewed_customnav_manager extends base{
     protected function init(){
         $this->data['crud'] = 'r';
         $this->data['edulevel'] = self::LEVEL_OTHER;
-        $this->data['objecttable'] = 'customnav_images';
     }
     public static function get_name(){
         return 'Viewed manager navigation';
     }
     public function get_description(){
-        return "The user with id '".$this->userid."' viewed the navigation for the role archetype '".$this->other."'.";
+        return "The user with id '".$this->userid."' viewed the navigation for the role archetype '".$this->other[0]."'.";
     }
     public function get_url(){
         return new \moodle_url('/my/index.php');
