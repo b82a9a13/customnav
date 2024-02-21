@@ -36,7 +36,7 @@ if(!isset($_SESSION['cn_rs_form_id']) || !isset($_POST['width']) || !isset($_POS
     } elseif(!preg_match("/^[0-9]*$/", $height) || empty($height)){
         #Invalid height provided
         $return['error'] = get_string('invalid_hp', 'block_customnav');
-    } elseif($aspect != 1 && $aspect != 0){
+    } elseif($aspect != "1" && $aspect != "0"){
         #Invalid aspect ratio provided
         $return['error'] = get_string('invalid_ar', 'block_customnav');
     } elseif(!preg_match("/^[0-9]*$/", $icons) || empty($icons)){
@@ -57,8 +57,8 @@ if(!isset($_SESSION['cn_rs_form_id']) || !isset($_POST['width']) || !isset($_POS
     } elseif($height > 250){
         #Height is greater than 250
         $return['error'] = get_string('height_mbl', 'block_customnav');
-    } elseif($icons > 12){
-        #Icons per row is greater than 12
+    } elseif($icons > 30){
+        #Icons per row is greater than 30
         $return['error'] = get_string('icons_mbl', 'block_customnav');
     }else {
         #Proceed if validation has passed

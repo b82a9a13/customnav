@@ -30,7 +30,7 @@
 //I
     $string['icons_pr'] = 'Icons Per Row';
     $string['icons_mbg'] = 'Icons per row must be 1 or greater';
-    $string['icons_mbl'] = 'Icons per row must be 12 or less';
+    $string['icons_mbl'] = 'Icons per row must be 30 or less';
     $string['invalid_c'] = 'Invalid characters: ';
     $string['invalid_ar'] = 'Invalid aspect ratio';
     $string['invalid_at'] = 'Invalid alt text';
